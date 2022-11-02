@@ -19,9 +19,9 @@
         <span class="score-text">Score </span>
         <span class="score">{{itemData.score}}/{{itemData.possible_score}}</span>
       </div>
-      <div class="view-work-button">
+      <div class="view-work-button" v-if="showZoom">
         <div class="view-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="20" height="20">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="15" height="15">
             <path fill="#008081" d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"/>
           </svg>
         </div>
@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import Const from '@/utils/const';
+
 export default {
   name: 'SingleItem',
   props: [
@@ -69,11 +71,14 @@ export default {
     getDateFormat() {
       return `${this.itemDate.toLocaleString('default', { month: 'short' })} ${this.itemDate.getUTCDate()}, ${this.itemDate.getFullYear()}`;
     },
-    showScore() {
-      return this.itemInfo.score !== '';
-    },
     isProductBp() {
       return this.itemInfo.product === 'bp';
+    },
+    showScore() {
+      return Const.activityTypesSettings[this.itemInfo.resource_type].score;
+    },
+    showZoom() {
+      return Const.activityTypesSettings[this.itemInfo.resource_type].zoom;
     },
   },
   watch: {
@@ -100,7 +105,6 @@ export default {
   }
   .info-data {
     margin-left: 10px;
-    font-size: 12px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -136,6 +140,7 @@ export default {
   .item-title {
     text-transform: capitalize;
     font-weight: 600;
+    font-size: 12px;
   }
   .view-work-section {
     color: var(--main-color);
@@ -167,10 +172,11 @@ export default {
     font-weight: bold;
     margin: 0 3px;
     position: relative;
-    top: -5px;
+    top: -4px;
   }
   .date-time {
     display: flex;
     align-items: center;
+    font-size: 10px;
   }
 </style>

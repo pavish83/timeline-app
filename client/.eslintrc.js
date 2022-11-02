@@ -16,6 +16,7 @@ module.exports = {
     'linebreak-style': 0,
     'import/no-dynamic-require': 0,
     'global-require': 0,
-    'max-len': 'off'
+    'max-len': 'off',
+    "arrow-body-style": "off",
   },
 };

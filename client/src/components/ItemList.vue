@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div v-for="(groupBy,index) in getActivities" :key="index" class="group-title-generator">
+    <div v-for="(groupBy, index) in itemsData" :key="groupBy.group" class="group-title-generator">
       <div class="seperator" :class="{'hide-seperator': index == 0}">|</div>
       <div class="title-wrap">
         <div class="group-title">{{groupBy.group}}</div>
       </div>
-      <div v-for="(item,index) in groupBy.data" :key="index" class="group-list-item">
+      <div v-for="(item) in groupBy.data" :key="item.id" class="group-list-item">
         <div class="seperator">|</div>
         <SingleItem :item-data="item"/>
       </div>
@@ -15,7 +15,6 @@
 
 <script>
 import SingleItem from '@/components/SingleItem.vue';
-import { mapGetters } from 'vuex';
 
 export default {
   name: 'ItemList',
@@ -30,8 +29,13 @@ export default {
       itemsData: this.items,
     };
   },
-  computed: {
-    ...mapGetters(['getActivities']),
+  watch: {
+    items: {
+      handler(newVal) {
+        this.itemsData = newVal;
+      },
+      deep: true,
+    },
   },
 };
 </script>
