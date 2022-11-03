@@ -5,17 +5,26 @@ import helper from '@/utils/helper';
 export default createStore({
   state: {
     activities: [],
+    showZoomViewModal: false,
     loading: false,
+    dataLoaded: false,
   },
   getters: {
     getActivities: (state) => helper.groupByMonth(state.activities),
+    getActivityById: (state) => (id) => {
+      return state.activities.filter((item) => item.id === id)[0];
+    },
   },
   mutations: {
     UPDATE_ACTIVITIES(state, payload) {
       state.activities = payload;
+      state.dataLoaded = true;
     },
     TOGGLE_LOADER(state, payload) {
       state.loading = payload;
+    },
+    TOGGLE_ZOOM_VIEW_MODAL(state) {
+      state.showZoomViewModal = !state.showZoomViewModal;
     },
   },
   actions: {

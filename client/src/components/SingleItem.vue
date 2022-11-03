@@ -19,7 +19,7 @@
         <span class="score-text">Score </span>
         <span class="score">{{itemData.score}}/{{itemData.possible_score}}</span>
       </div>
-      <div class="view-work-button" v-if="showZoom">
+      <div class="view-work-button" v-if="showZoom" @click="showZoomModal" @keydown="showZoomModal">
         <div class="view-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="15" height="15">
             <path fill="#008081" d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"/>
@@ -34,51 +34,23 @@
 </template>
 
 <script>
-import Const from '@/utils/const';
+import activityInfo from '@/mixins/activityInfo';
 
 export default {
   name: 'SingleItem',
+  mixins: [activityInfo],
   props: [
     'itemData',
   ],
   data() {
     return {
       itemInfo: this.itemData,
-      imageName: '',
       itemDate: new Date(this.itemData.d_created * 1000),
     };
   },
-  computed: {
-    getIconName() {
-      const mapObj = {
-        '/assets/topics/': '',
-        '.png': '',
-      };
-      return this.itemInfo.topic_data.icon_path.replace(/\/assets\/topics\/|.png/gi, (matched) => mapObj[matched]);
-    },
-    getIconPath() {
-      return require(`@/assets/topics/${this.getIconName}.png`);
-    },
-    getItemTitle() {
-      return `${this.itemInfo.topic_data.name} ${this.itemInfo.resource_type.replace(/_/g, ' ')}`;
-    },
-    getItemTime() {
-      return this.itemDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-    },
-    getItemFullMonth() {
-      return this.itemDate.toLocaleString('default', { month: 'long' });
-    },
-    getDateFormat() {
-      return `${this.itemDate.toLocaleString('default', { month: 'short' })} ${this.itemDate.getUTCDate()}, ${this.itemDate.getFullYear()}`;
-    },
-    isProductBp() {
-      return this.itemInfo.product === 'bp';
-    },
-    showScore() {
-      return Const.activityTypesSettings[this.itemInfo.resource_type].score;
-    },
-    showZoom() {
-      return Const.activityTypesSettings[this.itemInfo.resource_type].zoom;
+  methods: {
+    showZoomModal() {
+      this.$emit('zoom-view', this.itemInfo.id);
     },
   },
   watch: {
@@ -91,7 +63,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .item-container {
     display: flex;
     justify-content: space-between;

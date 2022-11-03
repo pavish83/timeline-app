@@ -7,7 +7,7 @@
       </div>
       <div v-for="(item) in groupBy.data" :key="item.id" class="group-list-item">
         <div class="seperator">|</div>
-        <SingleItem :item-data="item"/>
+        <SingleItem :item-data="item" @zoom-view="zoomView"/>
       </div>
     </div>
   </div>
@@ -28,6 +28,11 @@ export default {
     return {
       itemsData: this.items,
     };
+  },
+  methods: {
+    zoomView(id) {
+      this.$emit('open-modal', id);
+    },
   },
   watch: {
     items: {
