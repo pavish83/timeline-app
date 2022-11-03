@@ -19,5 +19,6 @@
   color: #2c3e50;
   max-width: 800px;
   margin: 0 auto;
+  padding-bottom: 50px;
 }
 </style>

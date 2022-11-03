@@ -14,6 +14,7 @@
     <LoadingSpinner v-show="loading"/>
     <ItemList :items="filterActivitiesByType" @open-modal="openModal"/>
     <ZoomModal v-if="showZoomViewModal" :id="zoomActivityId"/>
+    <div @click="loadMore" @keydown="loadMore" class="load-more"><span class="load-icon"><svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="10" height="10" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill="#008081" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 298.04"><path fill-rule="nonzero" d="M12.08 70.78c-16.17-16.24-16.09-42.54.15-58.7 16.25-16.17 42.54-16.09 58.71.15L256 197.76 441.06 12.23c16.17-16.24 42.46-16.32 58.71-.15 16.24 16.16 16.32 42.46.15 58.7L285.27 285.96c-16.24 16.17-42.54 16.09-58.7-.15L12.08 70.78z"/></svg></span> Load More</div>
   </div>
 </template>
 
@@ -40,6 +41,7 @@ export default {
       searchQuery: null,
       activitiesData: [],
       zoomActivityId: null,
+      itemsLength: 10,
     };
   },
   created() {
@@ -52,23 +54,30 @@ export default {
       this.zoomActivityId = id;
       this.TOGGLE_ZOOM_VIEW_MODAL();
     },
+    loadMore() {
+      if (this.paginatedItems > this.activities.length) return;
+      this.itemsLength += 10;
+    },
   },
   computed: {
     ...mapState(['activities', 'loading', 'showZoomViewModal']),
     getFilters() {
       return Const.activityTypes;
     },
+    paginatedItems() {
+      return this.activities.slice(0, this.itemsLength);
+    },
     filterActivitiesByType() {
       let data = [];
       if (this.searchQuery) {
-        data = this.activities.filter((item) => {
+        data = this.paginatedItems.filter((item) => {
           return this.searchQuery
             .toLowerCase()
             .split(' ')
             .every((v) => item.topic_data.name.toLowerCase().includes(v));
         });
       } else {
-        data = this.activities;
+        data = this.paginatedItems;
       }
       if (this.filterType === 'all') return Helper.groupByMonth(data);
       const filtered = data.filter((item) => item.resource_type === this.filterType);
@@ -130,6 +139,12 @@ export default {
     &.selected {
       background-color: #e0ffff;
     }
+    cursor: pointer;
+  }
+  .load-more {
+    margin-top: 20px;
+    color: var(--main-color);
+    font-weight: 700;
     cursor: pointer;
   }
 </style>

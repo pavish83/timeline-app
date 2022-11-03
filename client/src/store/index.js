@@ -8,6 +8,7 @@ export default createStore({
     showZoomViewModal: false,
     loading: false,
     dataLoaded: false,
+    hiddenActivities: sessionStorage.getItem('hiddenActivities') || [],
   },
   getters: {
     getActivities: (state) => helper.groupByMonth(state.activities),
@@ -25,6 +26,16 @@ export default createStore({
     },
     TOGGLE_ZOOM_VIEW_MODAL(state) {
       state.showZoomViewModal = !state.showZoomViewModal;
+    },
+    ADD_ACTIVITY_TO_HIDDEN(state, id) {
+      if (sessionStorage.getItem('hiddenActivities') === null) {
+        sessionStorage.setItem('hiddenActivities', JSON.stringify([id]));
+      } else {
+        const items = JSON.parse(sessionStorage.getItem('hiddenActivities'));
+        items.push(id);
+        sessionStorage.setItem('hiddenActivities', JSON.stringify(items));
+      }
+      state.hiddenActivities.push(id);
     },
   },
   actions: {

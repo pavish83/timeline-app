@@ -1,5 +1,7 @@
 <template>
-  <div class="item-container">
+  <div>
+    <div class="seperator" v-if="!isHidden">|</div>
+    <div class="item-container" v-if="!isHidden">
     <div class="info-container">
       <div>
         <img :src="getIconPath" :alt="getIconName" class="resource-icon" :class="{'bp': isProductBp, 'bpjr': !isProductBp}">
@@ -29,12 +31,15 @@
           View work
         </div>
       </div>
+      <div class="hide-icon" @click="hideActivity" @keydown="hideActivity" title="hide">X</div>
     </div>
+  </div>
   </div>
 </template>
 
 <script>
 import activityInfo from '@/mixins/activityInfo';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'SingleItem',
@@ -49,8 +54,18 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(['ADD_ACTIVITY_TO_HIDDEN']),
     showZoomModal() {
       this.$emit('zoom-view', this.itemInfo.id);
+    },
+    hideActivity() {
+      this.ADD_ACTIVITY_TO_HIDDEN(this.itemData.id);
+    },
+  },
+  computed: {
+    ...mapState(['hiddenActivities']),
+    isHidden() {
+      return this.hiddenActivities.indexOf(this.itemData.id) !== -1;
     },
   },
   watch: {
@@ -64,6 +79,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .seperator {
+    display: flex;
+    margin: -2px 0 -1px 55px;
+    color: var(--light-gray-color);;
+    &.hide-seperator {
+      display: none;
+    }
+  }
   .item-container {
     display: flex;
     justify-content: space-between;
@@ -150,5 +173,20 @@ export default {
     display: flex;
     align-items: center;
     font-size: 10px;
+  }
+  .hide-icon {
+    cursor: pointer;
+    align-self: flex-end;
+    font-weight: 700;
+    font-size: 10px;
+    color: #B8B8B8;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    padding: 3px;
+    background: #fff;
+    border: 1px solid #B8B8B8;
+    align-self: center;
+    margin-left: 20px;
   }
 </style>

@@ -6,7 +6,6 @@
         <div class="group-title">{{groupBy.group}}</div>
       </div>
       <div v-for="(item) in groupBy.data" :key="item.id" class="group-list-item">
-        <div class="seperator">|</div>
         <SingleItem :item-data="item" @zoom-view="zoomView"/>
       </div>
     </div>
