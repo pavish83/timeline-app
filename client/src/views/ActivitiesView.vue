@@ -42,7 +42,7 @@ export default {
     };
   },
   created() {
-    this.GET_ACTIVITIES();
+    this.GET_ACTIVITIES('v1');
   },
   methods: {
     ...mapActions(['GET_ACTIVITIES']),

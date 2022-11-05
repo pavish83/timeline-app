@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-wrap">
+  <div class="modal-wrap" v-if="dataLoaded">
     <div class="zoom-container">
       <div class="close-icon" @click="closeModal" @keydown="closeModal">X</div>
       <div>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations, mapState, mapActions } from 'vuex';
 import activityInfo from '@/mixins/activityInfo';
 
 export default {
@@ -42,9 +42,15 @@ export default {
   },
   methods: {
     ...mapMutations(['TOGGLE_ZOOM_VIEW_MODAL']),
+    ...mapActions(['GET_ACTIVITIES']),
     closeModal() {
       this.TOGGLE_ZOOM_VIEW_MODAL();
     },
+  },
+  beforeMount() {
+    if (!this.dataLoaded) {
+      this.GET_ACTIVITIES('v1');
+    }
   },
   created() {
     this.itemInfo = this.getItemData;
@@ -53,8 +59,19 @@ export default {
     ...mapGetters([
       'getActivityById',
     ]),
+    ...mapState(['dataLoaded']),
     getItemData() {
-      return this.getActivityById(this.id);
+      return this.getActivityById(this.getId);
+    },
+    getId() {
+      return this.id || this.$route.params.id;
+    },
+  },
+  watch: {
+    getItemData: {
+      handler(val) {
+        this.itemInfo = val;
+      },
     },
   },
 };

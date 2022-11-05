@@ -49,4 +49,8 @@ export default {
     challenge: 'Challenge',
     draw_about_it: 'Draw About It',
   },
+  apiVersions: {
+    v1: 'http://localhost:3000/activities/v1',
+    v2: 'http://localhost:3000/activities/v2',
+  },
 };

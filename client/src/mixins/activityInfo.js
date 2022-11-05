@@ -7,13 +7,13 @@ export default {
         '/assets/topics/': '',
         '.png': '',
       };
-      return this.itemInfo.icon_path.replace(/\/assets\/topics\/|.png/gi, (matched) => mapObj[matched]);
+      return this.itemInfo.topic_data.icon_path.replace(/\/assets\/topics\/|.png/gi, (matched) => mapObj[matched]);
     },
     getIconPath() {
       return require(`@/assets/topics/${this.getIconName}.png`);
     },
     getItemTitle() {
-      return `${this.itemInfo.name} ${this.itemInfo.resource_type.replace(/_/g, ' ')}`;
+      return `${this.itemInfo.topic_data.name} ${this.itemInfo.resource_type.replace(/_/g, ' ')}`;
     },
     itemDate() {
       return new Date(this.getItemData.d_created * 1000);

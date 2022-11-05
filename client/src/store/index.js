@@ -1,6 +1,7 @@
 import { createStore } from 'vuex';
 import axios from 'axios';
 import helper from '@/utils/helper';
+import Const from '@/utils/const';
 
 export default createStore({
   state: {
@@ -8,14 +9,14 @@ export default createStore({
     showZoomViewModal: false,
     loading: false,
     dataLoaded: false,
-    hiddenActivities: sessionStorage.getItem('hiddenActivities') || [],
+    hiddenActivities: JSON.parse(sessionStorage.getItem('hiddenActivities')) || [],
   },
   getters: {
     getActivities: (state) => helper.groupByMonth(state.activities),
     getTopicNames: (state) => {
       const topics = new Set();
       state.activities.forEach((item) => {
-        topics.add(item.name);
+        topics.add(item.topic_data.name);
       });
       return [...topics];
     },
@@ -25,9 +26,11 @@ export default createStore({
   },
   mutations: {
     UPDATE_ACTIVITIES(state, payload) {
-      const res = [];
-      payload.forEach((item) => res.push(helper.flattenObject(item)));
-      state.activities = res;
+      if (payload.version === 'v2') {
+        state.activities = helper.normalizeApi(payload.data);
+      } else {
+        state.activities = payload.data;
+      }
       state.dataLoaded = true;
     },
     TOGGLE_LOADER(state, payload) {
@@ -48,10 +51,10 @@ export default createStore({
     },
   },
   actions: {
-    async GET_ACTIVITIES({ commit }) {
+    async GET_ACTIVITIES({ commit }, apiVersion) {
       commit('TOGGLE_LOADER', true);
-      await axios.get('http://localhost:3000/activities/v2')
-        .then((response) => commit('UPDATE_ACTIVITIES', response.data))
+      await axios.get(Const.apiVersions[apiVersion])
+        .then((response) => commit('UPDATE_ACTIVITIES', { data: response.data, version: apiVersion }))
         .catch((e) => console.warn(e))
         .finally(() => {
           commit('TOGGLE_LOADER', false);

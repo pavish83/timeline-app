@@ -2,38 +2,38 @@
   <div>
     <div class="seperator" v-if="!isHidden">|</div>
     <div class="item-container" v-if="!isHidden">
-    <div class="info-container">
-      <div>
-        <img :src="getIconPath" :alt="getIconName" class="resource-icon" :class="{'bp': isProductBp, 'bpjr': !isProductBp}">
-        <span v-if="!isProductBp" class="product-bpjr">Jr.</span>
-      </div>
-      <div class="info-data">
-        <div class="item-title">{{getItemTitle}}</div>
-        <div class="date-time">
-          <div>{{getDateFormat}}</div>
-          <div class="date-seperator">.</div>
-          <div>{{getItemTime}}</div>
+      <div class="info-container">
+        <div>
+          <img :src="getIconPath" :alt="getIconName" class="resource-icon" :class="{'bp': isProductBp, 'bpjr': !isProductBp}">
+          <span v-if="!isProductBp" class="product-bpjr">Jr.</span>
         </div>
+        <div class="info-data">
+          <div class="item-title">{{getItemTitle}}</div>
+          <div class="date-time">
+            <div>{{getDateFormat}}</div>
+            <div class="date-seperator">.</div>
+            <div>{{getItemTime}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="view-work-section">
+        <div v-if="showScore">
+          <span class="score-text">Score </span>
+          <span class="score">{{itemData.score}}/{{itemData.possible_score}}</span>
+        </div>
+        <div class="view-work-button" v-if="showZoom" @click="showZoomModal" @keydown="showZoomModal">
+          <div class="view-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="15" height="15">
+              <path fill="#008081" d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"/>
+            </svg>
+          </div>
+          <div class="btn">
+            View work
+          </div>
+        </div>
+        <div class="hide-icon" @click="hideActivity" @keydown="hideActivity" title="hide">X</div>
       </div>
     </div>
-    <div class="view-work-section">
-      <div v-if="showScore">
-        <span class="score-text">Score </span>
-        <span class="score">{{itemData.score}}/{{itemData.possible_score}}</span>
-      </div>
-      <div class="view-work-button" v-if="showZoom" @click="showZoomModal" @keydown="showZoomModal">
-        <div class="view-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="15" height="15">
-            <path fill="#008081" d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"/>
-          </svg>
-        </div>
-        <div class="btn">
-          View work
-        </div>
-      </div>
-      <div class="hide-icon" @click="hideActivity" @keydown="hideActivity" title="hide">X</div>
-    </div>
-  </div>
   </div>
 </template>
 
@@ -82,7 +82,7 @@ export default {
   .seperator {
     display: flex;
     margin: -2px 0 -1px 55px;
-    color: var(--light-gray-color);;
+    color: var(--light-gray-color);
     &.hide-seperator {
       display: none;
     }
@@ -93,7 +93,7 @@ export default {
     border: 1px solid var(--light-gray-color);
     border-radius: 2%;
     margin: 0 10px;
-    padding: 20px;;
+    padding: 20px;
   }
   .info-container {
     display: flex;
@@ -187,6 +187,7 @@ export default {
     background: #fff;
     border: 1px solid #B8B8B8;
     align-self: center;
-    margin-left: 20px;
+    position: relative;
+    left: 50px;
   }
 </style>

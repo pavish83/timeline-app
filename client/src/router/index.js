@@ -8,12 +8,12 @@ const routes = [
     component: ActivitiesView,
   },
   {
-    path: '/zoom-activity/:id',
-    name: 'zoomActivity',
+    path: '/activity/:id',
+    name: 'ZoomModal',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "ActivityZoomView" */ '../views/ActivityZoomView.vue'),
+    component: () => import(/* webpackChunkName: "ZoomModal" */ '../components/ZoomModal.vue'),
   },
 ];
 
