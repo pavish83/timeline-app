@@ -12,13 +12,22 @@ export default createStore({
   },
   getters: {
     getActivities: (state) => helper.groupByMonth(state.activities),
+    getTopicNames: (state) => {
+      const topics = new Set();
+      state.activities.forEach((item) => {
+        topics.add(item.name);
+      });
+      return [...topics];
+    },
     getActivityById: (state) => (id) => {
       return state.activities.filter((item) => item.id === id)[0];
     },
   },
   mutations: {
     UPDATE_ACTIVITIES(state, payload) {
-      state.activities = payload;
+      const res = [];
+      payload.forEach((item) => res.push(helper.flattenObject(item)));
+      state.activities = res;
       state.dataLoaded = true;
     },
     TOGGLE_LOADER(state, payload) {
@@ -41,7 +50,7 @@ export default createStore({
   actions: {
     async GET_ACTIVITIES({ commit }) {
       commit('TOGGLE_LOADER', true);
-      await axios.get('http://localhost:3000/activities/v1')
+      await axios.get('http://localhost:3000/activities/v2')
         .then((response) => commit('UPDATE_ACTIVITIES', response.data))
         .catch((e) => console.warn(e))
         .finally(() => {

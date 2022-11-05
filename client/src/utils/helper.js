@@ -8,4 +8,26 @@ export default {
     }, {});
     return Object.keys(groups).map((k) => groups[k]);
   },
+  flattenObject(obj) {
+    let res = {};
+    for (const [key, value] of Object.entries(obj)) {
+      if (typeof value === 'object') {
+        res = { ...res, ...this.flattenObject(value) };
+      } else {
+        res[key] = value;
+      }
+    }
+    return res;
+  },
+  // normalizeApi(data) {
+  //   const res = [];
+  //   data.map((item) => {
+  //     item.activities.forEach((subItem) => {
+  //       const obj1 = { resource_type: item.resource_type };
+  //       const obj2 = { ...subItem };
+  //       const newObj = { ...obj1, ...obj2 };
+  //       res.push(newObj);
+  //     });
+  //   });
+  // },
 };

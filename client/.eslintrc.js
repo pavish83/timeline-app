@@ -17,6 +17,14 @@ module.exports = {
     'import/no-dynamic-require': 0,
     'global-require': 0,
     'max-len': 'off',
-    "arrow-body-style": "off",
+    'arrow-body-style': 'off',
+    'vuejs-accessibility/click-events-have-key-events': 'off',
+    'object-curly-newline': [
+      'error',
+      {
+        "ImportDeclaration": 'never',
+      }
+    ],
+    "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"]
   },
 };
