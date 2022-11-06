@@ -22,9 +22,11 @@ module.exports = {
     'object-curly-newline': [
       'error',
       {
-        "ImportDeclaration": 'never',
+        'ImportDeclaration': 'never',
       }
     ],
-    "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"]
+    'no-restricted-syntax': ['error', 'ForInStatement', 'LabeledStatement', 'WithStatement'],
+    'no-param-reassign': 1, 
+    'no-unused-expressions': 1,
   },
 };
