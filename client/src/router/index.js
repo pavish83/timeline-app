@@ -6,6 +6,13 @@ const routes = [
     path: '/',
     name: 'activities',
     component: ActivitiesView,
+    props: { version: 'v1' },
+  },
+  {
+    path: '/activities/v2',
+    name: 'activities-version2',
+    component: ActivitiesView,
+    props: { version: 'v2' },
   },
   {
     path: '/activity/:id',

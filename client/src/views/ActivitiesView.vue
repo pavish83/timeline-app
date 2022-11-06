@@ -25,6 +25,9 @@ import Autocomplete from '@/components/Autocomplete.vue';
 
 export default {
   name: 'HomeView',
+  props: [
+    'version',
+  ],
   components: {
     ItemList,
     LoadingSpinner,
@@ -42,7 +45,7 @@ export default {
     };
   },
   created() {
-    this.GET_ACTIVITIES('v1');
+    this.GET_ACTIVITIES(this.version);
   },
   methods: {
     ...mapActions(['GET_ACTIVITIES']),
