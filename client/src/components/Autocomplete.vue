@@ -95,7 +95,7 @@ export default {
     width: 300px;
   }
   .search-glass {
-    margin-left: -30px;
+    margin-left: -29px;
     height: 29px;
     width: 29px;
     background-color: var(--main-color);

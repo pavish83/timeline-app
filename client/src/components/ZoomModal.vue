@@ -83,7 +83,7 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 33%;
+    height: 300px;
     width: 500px;
     overflow: auto;
     background: #FFFFFF;
